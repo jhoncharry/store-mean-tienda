@@ -1,27 +1,14 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { routing } from './app.routing';
-import { InicioComponent } from './components/inicio/inicio.component';
-import { NavComponent } from './components/nav/nav.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { PublicModule } from './pages/public.module';
 
 @NgModule({
-  declarations: [AppComponent, InicioComponent, NavComponent, FooterComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    routing,
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, PublicModule],
   providers: [],
   bootstrap: [AppComponent],
 })

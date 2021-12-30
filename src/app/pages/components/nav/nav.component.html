@@ -33,11 +33,46 @@
       <!-- Toolbar -->
       <div class="d-flex align-items-center order-lg-3">
         <ul class="nav nav-tools flex-nowrap">
-          <li class="nav-item d-lg-block d-none mb-0">
-            <a href="account-wishlist.html" class="nav-tool">
-              <i class="cxi-heart nav-tool-icon"></i>
-              <span class="nav-tool-label">2</span>
+          <li class="nav-item d-lg-block d-none mb-0" *ngIf="!currentUser">
+            <a [routerLink]="['/login']" class="nav-tool">
+              <i class="cxi-profile nav-tool-icon"></i>
+              <span class="nav-tool-label">Login</span>
             </a>
+          </li>
+          <li class="nav-item d-lg-block d-none dropdown" *ngIf="currentUser">
+            <a
+              class="nav-tool dropdown-toggle"
+              data-toggle="dropdown"
+              style="cursor: pointer"
+            >
+              <i class="cxi-profile nav-tool-icon"></i>
+              <span class="nav-tool-label">{{ userLabel }}</span>
+            </a>
+            <!-- Dropdown example 3 -->
+            <div class="dropdown-menu">
+              <a
+                [routerLink]="['/cuenta/perfil']"
+                routerLinkActive="active"
+                class="dropdown-item"
+              >
+                <i class="cxi-profile mr-2"></i>
+                Perfil
+                <!-- <span class="badge badge-pill badge-danger ml-2">3</span> -->
+              </a>
+              <a href="#" class="dropdown-item">
+                <i class="cxi-comment mr-2"></i>
+                Messages
+                <span class="badge badge-pill badge-success ml-2">5</span>
+              </a>
+              <a
+                (click)="logout()"
+                class="dropdown-item"
+                style="cursor: pointer"
+              >
+                <i class="cxi-logout mr-2"></i>
+                Cerrar sesión
+              </a>
+            </div>
           </li>
           <li class="divider-vertical mb-0 d-lg-block d-none"></li>
           <li class="nav-item align-self-center mb-0">
@@ -94,7 +129,13 @@
         <!-- Menu -->
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a href="index.html" class="nav-link active">Home</a>
+            <a
+              class="nav-link"
+              [routerLink]="['/']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Home</a
+            >
           </li>
           <li class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
