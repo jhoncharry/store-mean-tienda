@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io } from 'socket.io-client';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { io } from 'socket.io-client';
 export class WebSocketService {
   socket: any;
 
-  readonly uri: string = 'http://localhost:3000';
+  readonly uri: string = environment.socket;
 
   constructor() {
     this.socket = io(this.uri);
