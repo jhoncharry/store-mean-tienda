@@ -51,12 +51,7 @@
               </div>
             </div>
             <div
-              class="
-                d-flex
-                justify-content-between
-                align-items-center
-                form-group
-              "
+              class="d-flex justify-content-between align-items-center form-group"
             >
               <a href="#" class="font-size-sm text-decoration-none"
                 >Olvido su contraseña?</a
@@ -81,7 +76,7 @@
             Sign in to your account using email and password provided during
             registration.
           </p>
-          <form>
+          <form [formGroup]="registerForm" (ngSubmit)="register()">
             <div class="form-group">
               <div class="row">
                 <div class="col-lg-6">
@@ -90,7 +85,9 @@
                     type="email"
                     class="form-control"
                     placeholder="Names"
-                    required=""
+                    name="name"
+                    formControlName="name"
+                    required
                   />
                 </div>
                 <div class="col-lg-6">
@@ -99,7 +96,9 @@
                     type="email"
                     class="form-control"
                     placeholder="Fullname"
-                    required=""
+                    name="lastname"
+                    formControlName="lastname"
+                    required
                   />
                 </div>
               </div>
@@ -110,7 +109,9 @@
                 type="email"
                 class="form-control"
                 placeholder="Your email address"
-                required=""
+                name="email"
+                formControlName="email"
+                required
               />
             </div>
             <div class="form-group">
@@ -121,7 +122,9 @@
                   class="form-control appended-form-control"
                   id="signin-password"
                   placeholder="Your password"
-                  required=""
+                  name="password"
+                  formControlName="password"
+                  required
                 />
                 <div class="input-group-append-overlay">
                   <label class="btn cs-password-toggle-btn input-group-text">
@@ -133,12 +136,7 @@
               </div>
             </div>
             <div
-              class="
-                d-flex
-                justify-content-between
-                align-items-center
-                form-group
-              "
+              class="d-flex justify-content-between align-items-center form-group"
             >
               <div class="custom-control custom-checkbox">
                 <input

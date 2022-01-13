@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
   submitted = false;
   loading = false;
 
+  load_btn = false;
+
   public loginForm = this.fb.group({
     email: [
       'test1@gmail.com',
@@ -30,9 +32,24 @@ export class LoginComponent implements OnInit {
     password: ['123456', [Validators.required, Validators.minLength(3)]],
   });
 
+  public registerForm = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    lastname: ['', [Validators.required, Validators.minLength(3)]],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+      ],
+    ],
+    password: ['', [Validators.required, Validators.minLength(3)]],
+  });
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private clientService: ClienteService,
     private router: Router
   ) {}
 
@@ -60,9 +77,6 @@ export class LoginComponent implements OnInit {
     // Realizar el posteo
     this.authService.login(this.loginForm.value).subscribe({
       next: (resp: any) => {
-        localStorage.setItem('token', resp.token);
-        localStorage.setItem('_id', resp.data._id);
-
         this.router.navigateByUrl('/');
       },
       error: (error) => {
@@ -76,5 +90,61 @@ export class LoginComponent implements OnInit {
         });
       },
     });
+  }
+
+  //Add user form actions
+  get getControlRegister() {
+    return this.registerForm.controls;
+  }
+
+  register() {
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    this.load_btn = true;
+
+    this.clientService.createClient(this.registerForm.value).subscribe({
+      next: (resp: any) => {
+        iziToast.show({
+          title: 'SUCCESS',
+          titleColor: '#1DC74C',
+          color: '#FFF',
+          class: 'text-success',
+          position: 'topRight',
+          message: 'User successfully registered',
+        });
+
+        this.load_btn = false;
+        this.registerForm.reset();
+        this.router.navigateByUrl('/');
+      },
+      error: (error) => {
+        console.log('error', error);
+        iziToast.show({
+          title: 'ERROR',
+          titleColor: '#FF0000',
+          color: '#FFF',
+          class: 'text-danger',
+          position: 'topRight',
+          message: error.error.message,
+        });
+      },
+    });
+
+    /*     this.user.register(this.registerForm.value).subscribe(
+      ({ data: { register }, errors }) => {
+        if (register) {
+          Swal.fire('Register', 'Successful register', 'success');
+          this.router.navigateByUrl('/login');
+          return;
+        }
+        Swal.fire('Register', errors[0].message, 'error');
+      },
+      () => {
+        Swal.fire('Error', 'Something went wrong... Networking!', 'error');
+      }
+    ); */
   }
 }

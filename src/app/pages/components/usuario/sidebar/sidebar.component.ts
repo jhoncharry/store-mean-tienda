@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { first, Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -16,10 +16,13 @@ export class SidebarComponent implements OnInit {
   constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.auth.currentUser$.subscribe((x: any) => {
-      console.log('VALORRRRR', x);
+    this.auth.currentUser$.pipe(first()).subscribe((x: any) => {
       this.currentUser = x;
       this.userLabel = `${this.currentUser?.name} ${this.currentUser?.lastname}`;
     });
+  }
+
+  logout() {
+    this.auth.logout();
   }
 }

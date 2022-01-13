@@ -53,40 +53,39 @@ export class PerfilComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.auth.loadCurrentUser().pipe(first()).subscribe({
-      next: (resp: any) => {
-        console.log('VALORRRRR', resp);
+    this.auth
+      .loadCurrentUser()
+      .pipe(first())
+      .subscribe({
+        next: (resp: any) => {
+          // this.currentUser = x;
+          // this.userLabel = `${this.currentUser?.name} ${this.currentUser?.lastname}`;
+          this.client = resp;
 
-        // this.currentUser = x;
-        // this.userLabel = `${this.currentUser?.name} ${this.currentUser?.lastname}`;
-        this.client = resp;
-
-        console.log(resp);
-
-        this.updateForm.setValue({
-          name: this.client.name || '',
-          lastname: this.client.lastname || '',
-          email: this.client.email || '',
-          phone: this.client.phone || '',
-          birthday: this.client.birthday || '',
-          dni: this.client.dni || '',
-          genre: this.client.genre || null,
-          country: this.client.country || null,
-          /*   phone: this.client.phone || '',
+          this.updateForm.setValue({
+            name: this.client.name || '',
+            lastname: this.client.lastname || '',
+            email: this.client.email || '',
+            phone: this.client.phone || '',
+            birthday: this.client.birthday || '',
+            dni: this.client.dni || '',
+            genre: this.client.genre || null,
+            country: this.client.country || null,
+            /*   phone: this.client.phone || '',
           birthday: this.client.birthday || '',
           dni: this.client.dni || '',
           genre: this.client.genre || null, */
-        });
+          });
 
-        this.load_data = false;
-        /* 
+          this.load_data = false;
+          /* 
           this.updateForm.reset();
           this.router.navigateByUrl('/panel/clientes'); */
-      },
-      error: (error) => {
-        this.load_data = false;
-        console.log('error', error);
-        /*         iziToast.show({
+        },
+        error: (error) => {
+          this.load_data = false;
+          console.log('error', error);
+          /*         iziToast.show({
             title: 'ERROR',
             titleColor: '#FF0000',
             color: '#FFF',
@@ -94,8 +93,8 @@ export class PerfilComponent implements OnInit {
             position: 'topRight',
             message: error.error.message,
           }); */
-      },
-    });
+        },
+      });
   }
 
   //Add user form actions
@@ -113,13 +112,9 @@ export class PerfilComponent implements OnInit {
 
   update() {
     this.submitted = true;
-    console.log('eeeeee', this.getControl);
     if (this.updateForm.invalid) {
-      console.log('333333', this.getControl);
       return;
     }
-
-    console.log('OKAAA', this.updateForm.value);
 
     this.load_btn = true;
 

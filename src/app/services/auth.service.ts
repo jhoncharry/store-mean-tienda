@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, map, Observable, of, ReplaySubject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -14,7 +15,7 @@ export class AuthService {
   private currentUserSource = new ReplaySubject<any>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.url = environment.api;
   }
 
@@ -33,22 +34,18 @@ export class AuthService {
   // Init to get currentUser when page reload o load for the first time
   loadCurrentUser(): Observable<any> {
     if (!this.token) {
-      console.log('111111111');
       this.currentUserSource.next(null);
       return of(null);
     }
-    console.log('33333333');
     return this.getInitCurrentUser();
   }
 
   // Check if there's a user logged in
   isLoggedIn(): Observable<any> {
     if (!this.token) {
-      console.log('222222222222');
       this.currentUserSource.next(null);
       return of(false);
     }
-    console.log('44444444444');
     return this.validateToken();
   }
 
@@ -113,6 +110,8 @@ export class AuthService {
       tap((resp: any) => {
         if (resp.data) {
           const user = resp.data;
+          localStorage.setItem('token', resp.token);
+          localStorage.setItem('_id', resp.data._id);
           this.currentUserSource.next(user);
           return user;
         }
@@ -134,5 +133,6 @@ export class AuthService {
     localStorage.removeItem('_id');
 
     this.currentUserSource.next(null);
+    this.router.navigateByUrl('/');
   }
 }
