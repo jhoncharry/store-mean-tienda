@@ -260,6 +260,6 @@ export class InicioComponent implements OnInit {
           1200: { items: 3 },
         },
       });
-    }, 2000);
+    }, 1300);
   }
 }
